@@ -69,17 +69,17 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
+      <button id="log">Console Log</button>
+      <button id="error">Console Error</button>
       <button>Console Count</button>
       <button>Console Warn</button>
       <button>Console Assert</button>
       <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
+      <button id="dir">Console Dir</button>
+      <button id="dirxml">Console dirxml</button>
+      <button id="group-s">Console Group Start</button>
+      <button id="group-e">Console Group End</button>
+      <button id="table">Console Table</button>
       <button>Start Timer</button>
       <button>End Timer</button>
       <button>Console Trace</button>
@@ -102,6 +102,32 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+    document.getElementById('log').addEventListener('click', () => { 
+      console.log('Console Log Demo');
+    });
+    document.getElementById('error').addEventListener('click', () => { 
+      console.error('Console Error: Demo');
+    });
+    document.getElementById('table').addEventListener('click', () => { 
+      console.table(['Console','Table','Demo']);
+    });
+    document.getElementById('dir').addEventListener('click', () => { 
+      console.dir(document.location);
+    });
+    document.getElementById('dirxml').addEventListener('click', () => { 
+      console.dirxml(document.location);
+    });
+    /*document.getElementById('group-s').addEventListener('click', () => { 
+      console.log('This is a group');
+      console.group();
+      console.log('This is a group in the console');
+      console.group();
+      console.log('This is a demo of a group in the console');
+      console.groupEnd();
+      console.log('Is this demo helpful?');
+      console.groupEnd();
+      console.log('Let me know');
+    });*/
   </script>
 </body>
 
