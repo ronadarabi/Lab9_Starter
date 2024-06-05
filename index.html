@@ -71,22 +71,24 @@
     <section id="error-btns">
       <button id="log">Console Log</button>
       <button id="error">Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
+      <button id="count">Console Count</button>
+      <button id="warn">Console Warn</button>
+      <button id="assert">Console Assert</button>
+      <button id="clear">Console Clear</button>
       <button id="dir">Console Dir</button>
       <button id="dirxml">Console dirxml</button>
-      <button id="group-s">Console Group Start</button>
+      <button id="group">Console Group Start</button>
       <button id="group-e">Console Group End</button>
       <button id="table">Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button id="start-time">Start Timer</button>
+      <button id="end-time">End Timer</button>
+      <button id="trace">Console Trace</button>
+      <button id="trigger">Trigger a Global Error</button>
+      <buttion id="tc"></buttion>
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -95,8 +97,31 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try { 
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+        console.log('Success')
+      } catch { 
+        throw new Error('Error in calculation. Try again');
+      } finally { 
+        console.log('This is the result');
+      }
     });
+
+    class ClickingError extends Error { 
+      constructor(message) { 
+        super(message);
+        this.name = "Clicking Error"; 
+      }
+    }
+
+    try { 
+      document.getElementById('tc').addEventListener('click', () => { 
+        console.log('Success');
+      });
+    } catch { 
+      throw new ClickingError('Cannot click');
+    }
+    
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
@@ -106,10 +131,20 @@
       console.log('Console Log Demo');
     });
     document.getElementById('error').addEventListener('click', () => { 
-      console.error('Console Error: Demo');
+      console.error('Console Error Demo');
     });
-    document.getElementById('table').addEventListener('click', () => { 
-      console.table(['Console','Table','Demo']);
+    document.getElementById('count').addEventListener('click', () => { 
+      console.count('Console Count');
+    });
+    document.getElementById('warn').addEventListener('click', () => { 
+      console.warn('Console Warn Demo');
+    });
+    document.getElementById('assert').addEventListener('click', () => {
+      let x = 5;  
+      console.assert(x%2==0, 'x is odd');
+    });
+    document.getElementById('clear').addEventListener('click', () => { 
+      console.clear();
     });
     document.getElementById('dir').addEventListener('click', () => { 
       console.dir(document.location);
@@ -117,17 +152,49 @@
     document.getElementById('dirxml').addEventListener('click', () => { 
       console.dirxml(document.location);
     });
-    /*document.getElementById('group-s').addEventListener('click', () => { 
-      console.log('This is a group');
-      console.group();
-      console.log('This is a group in the console');
-      console.group();
-      console.log('This is a demo of a group in the console');
+    document.getElementById('group').addEventListener('click', () => { 
+      console.group('Console Group Demo');
+      console.log('Group started');
+    });
+    document.getElementById('group-e').addEventListener('click', () => { 
       console.groupEnd();
-      console.log('Is this demo helpful?');
-      console.groupEnd();
-      console.log('Let me know');
-    });*/
+      console.log('Group ended')
+    });
+    document.getElementById('table').addEventListener('click', () => { 
+      console.table(['Console','Table','Demo']);
+    });
+    document.getElementById('start-time').addEventListener('click', () => { 
+      console.time('Time');
+      console.log('Timer starting...')
+    });
+    document.getElementById('end-time').addEventListener('click', () => { 
+      console.log('Timer ended.');
+      console.timeEnd('Time');
+    });
+    /* Trace functions */
+    function trace1() { 
+      trace2(); 
+    }
+    function trace2() { 
+      console.trace();
+      console.log('you have been traced');
+    }
+    document.getElementById('trace').addEventListener('click', () => { 
+      trace1(); 
+    }); 
+    document.getElementById('trigger').addEventListener('click', () => { 
+      try { 
+        throw new Error('error');
+      } catch { 
+        console.log('error caught');
+      }
+    });
+    // Track JS 
+    window.TrackJS && TrackJS.install({ 
+      token: "d934ac10330f4b77ba3a158094b443c3"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+    TrackJS.track('Testing TrackJS!');
   </script>
 </body>
 
